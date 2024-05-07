@@ -55,18 +55,23 @@ RUN pecl install apcu \
 RUN chown www-data:www-data /var/www
 USER www-data
 
+# NOT NEEDED IF USING THIS GRAV SKELETON
 # Define Grav specific version of Grav or use latest stable
-ARG GRAV_VERSION=latest
+# ARG GRAV_VERSION=latest
 
-# Install grav
+# Define Grav's skeleton specific version of Grav or use latest stable
+ARG GRAV_SKELETON_VERSION=v1.7.6
+
+# Install grav (change version if needed)
 WORKDIR /var/www
-RUN wget -O grav-admin.zip https://github.com/hibbitts-design/grav-skeleton-open-publishing-space/releases/download/v1.7.6/grav-skeleton-open-publishing-space.zip && \
+RUN wget -O grav-admin.zip https://github.com/hibbitts-design/grav-skeleton-open-publishing-space/releases/download/${GRAV_SKELETON_VERSION}/grav-skeleton-open-publishing-space.zip && \
     unzip grav-admin.zip -d grav-admin && \
     mv -T /var/www/grav-admin /var/www/html && \
     rm grav-admin.zip
 
+# NOT NEEDED IF USING THIS GRAV SKELETON
 # Update to last version and install Grav Admin plugin
-RUN cd /var/www/html && bin/gpm selfupgrade -f -y && bin/gpm install admin -y
+# RUN cd /var/www/html && bin/gpm selfupgrade -f -y && bin/gpm install admin -y
 
 # Create cron job for Grav maintenance scripts
 RUN (crontab -l; echo "* * * * * cd /var/www/html;/usr/local/bin/php bin/grav scheduler 1>> /dev/null 2>&1") | crontab -

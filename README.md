@@ -15,7 +15,9 @@ This currently is pretty minimal and uses:
 * vim editor
 * wget
 
-It has [Open Publishing Space](https://github.com/hibbitts-design/grav-skeleton-open-publishing-space) skeleton and admin panel included. It uses the last versions.
+It has [Open Publishing Space](https://github.com/hibbitts-design/grav-skeleton-open-publishing-space) skeleton and admin panel included. You can change the version used with the [build args](#building-the-image-from-dockerfile).
+
+I will try to keep this to the latest version by default.
 
 ## Persisting data
 
@@ -26,7 +28,7 @@ To save the Grav site data to the host file system (so that it persists even aft
 ## Building the image from Dockerfile
 
 ```
-docker build -t grav:latest .
+docker build --build-arg GRAV_SKELETON_VERSION=tag -t grav:latest .
 ```
 
 ## Running Grav Image with Latest Grav + Admin:
@@ -45,7 +47,7 @@ docker run -d -p 8000:80 --restart always -v grav_data:/var/www/html grav:latest
 
 ## Running Grav Image with docker-compose and a volume mapped to a local directory
 
-Running `docker-compose up -d` with the following docker-compose configuration will automatically build the Grav image (if the Dockerfile is in the same directory as the docker-compose.yml file). Then the Grav container will be started with all of the site data persisted to a named volume (stored in the `./grav` directory.
+Running `docker-compose up -d` with the following docker-compose configuration will automatically build the Grav image (if the Dockerfile is in the same directory as the docker-compose.yml file). Then the Grav container will be started with all of the site data persisted to a named volume (stored in the `./grav` directory).
 
 ```.yml
 volumes:
@@ -58,9 +60,12 @@ volumes:
 
 services:
   grav:
-    build: ./
+    build: 
+      context: ./
+      args: 
+        GRAV_SKELETON_VERSION: tag
     ports:
-      - 8080:80
+      - 8000:80
     volumes:
       - grav-data:/var/www/html
 ```
