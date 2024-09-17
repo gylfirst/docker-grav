@@ -60,7 +60,7 @@ USER www-data
 # ARG GRAV_VERSION=latest
 
 # Define Grav's skeleton specific version of Grav or use latest stable
-ARG GRAV_SKELETON_VERSION=v1.7.6
+ARG GRAV_SKELETON_VERSION=v1.7.7
 
 # Install grav (change version if needed)
 WORKDIR /var/www
