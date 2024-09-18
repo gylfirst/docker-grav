@@ -4,10 +4,10 @@
 
 This currently is pretty minimal and uses:
 
-* apache-2.4.57
+* apache-2.4.62-1
 * GD library
 * Unzip library
-* php8.3
+* php8.3.11
 * php8.3-opcache
 * php8.3-acpu
 * php8.3-yaml
